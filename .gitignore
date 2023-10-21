@@ -1,2 +1,5 @@
 .Rprofile
 venv
+teste.R
+aux.txt
+.Rhistory
