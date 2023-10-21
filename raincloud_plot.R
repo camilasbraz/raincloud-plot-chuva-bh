@@ -4,8 +4,6 @@ library(ggdist)
 library(ggthemes)
 library(tidyverse)
 
-
-
 setwd("~/github/0raincloud-plot")
 # Leitura de dados
 estacoes_automaticas <- read.csv("dados_estacoes_automaticas_bh.csv")
