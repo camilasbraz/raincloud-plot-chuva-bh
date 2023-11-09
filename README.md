@@ -7,9 +7,9 @@ Visualizing and Analyzing Data with the Raincloud Plot
 The Raincloud Plot is a hybrid visualization that allows you to view data in a more comprehensive and effective way. It is formed by the combination of three types of graphs:
 
 - Scatter plot, which presents the original data clearly and shows points with individual values to highlight existing variabilities or patterns.
-- 
+
 - Violin plot (cut in half) to show the density and distribution of the data. You can visualize how the data is distributed and identify features and nuances, such as whether the distribution is unimodal, bimodal, symmetric, or asymmetric.
-- 
+
 - Box plot, with key statistical indicators of the summarized dataset, including the median, quartiles, and possible outliers. This helps in identifying central trends and evaluating data dispersion. (If you want to learn more about box plots, you can access the post here: [link](https://www.linkedin.com/posts/camila-sbraz_analisededados-boxplots-cienciadedados-activity-7117584103842926594-VGX8?utm_source=share&utm_medium=member_desktop))
 The name "Raincloud Plot" was given due to the visual similarity of the graph to a cloud with rain falling beneath it, which occurs when these three graphs are plotted together and analyzed simultaneously.
 
