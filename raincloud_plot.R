@@ -31,11 +31,11 @@ pal <- c("#00b4d8", "#0077b6", "#023e8a")
 df_precipitacao %>%
   ggplot(aes(x = factor(periodo_6_anos), y = mean_precipitation, fill = factor(periodo_6_anos))) +
   stat_halfeye(
-    adjust = 0.5,
+    adjust = 1,
     justification = -0.2,
     .width = 0,
     point_colour = NA,
-    alpha = 0.8
+    alpha = 0.8,
   ) +
   geom_boxplot(
     aes(color = periodo_6_anos,
@@ -45,13 +45,16 @@ df_precipitacao %>%
     width = .2, 
     outlier.shape = NA,
     outlier.color = NA,
-    alpha = 0.5
+    alpha = 0.5,
+    position = position_dodge(width = -0.9) 
   ) +
   stat_summary(
     geom = "text",
+    color = 'grey95', 
     fun = "median",
     aes(label = round(..y.., 2),
-        color = periodo_6_anos,
+        #color = c("#f2f2f2", "#f2f2f2", "#f2f2f2", "#f2f2f2")
+        #color = periodo_6_anos,
         #color = after_scale(darken(color, .1, space = "HLS"))
         ),
     family = "Roboto",
@@ -62,7 +65,7 @@ df_precipitacao %>%
   stat_dots(
     side = "left",
     justification = 1.1,
-    binwidth = 0.25,
+    binwidth = 0.2,
     color = "transparent"
   ) +
   theme_tq() +
@@ -85,17 +88,18 @@ df_precipitacao %>%
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
     axis.ticks = element_blank(),
+    axis.text.y = element_blank(),
     axis.text.x = element_text(family = "Roboto"),
-    axis.text.y = element_text(
+    #axis.text.y = element_text(
       #color = darken(pal, .1, space = "HLS"), 
-      size = 18
-    ),
-    axis.title.x = element_text(margin = margin(t = 10),
-                                size = 16),
+    #  size = 18
+    #),
+   # axis.title.x = element_text(margin = margin(t = 10),
+    #                            size = 16),
  
-   plot.margin = unit(c(1.5, 1.5, 1.5, 1.5), "cm"),
+   plot.margin = unit(c(0, 0.5, 2, 0), "cm"),
     legend.position="none",
-   # element_rect(fill = "#f2f2f2")
+   plot.background = element_rect(fill = "#f2f2f2")
 
   )
 
