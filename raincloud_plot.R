@@ -1,8 +1,10 @@
-library(dplyr)
 library(tidyquant)
 library(ggdist)
 library(ggthemes)
 library(tidyverse)
+
+windowsFonts(Roboto = windowsFont("Roboto"))
+
 
 setwd("~/github/0raincloud-plot")
 # Leitura de dados
@@ -28,35 +30,36 @@ df_precipitacao <- dados %>%
   summarize(mean_precipitation = mean(precipitacao_diaria_mm, na.rm = TRUE))
 
 pal <- c("#00b4d8", "#0077b6", "#023e8a")
-df_precipitacao %>%
-  ggplot(aes(x = factor(periodo_6_anos), y = mean_precipitation, fill = factor(periodo_6_anos))) +
+
+ggplot(df_precipitacao, aes(x = factor(periodo_6_anos), y = mean_precipitation, fill = factor(periodo_6_anos))) +
   stat_halfeye(
+    # aes(y = mean_precipitation),
     adjust = 1,
-    justification = -0.2,
+    justification = -0.15,
+    width = 0.5,
     .width = 0,
     point_colour = NA,
     alpha = 0.8,
   ) +
   geom_boxplot(
     aes(color = periodo_6_anos,
-        # color = after_scale(darken(color, .1, space = "HLS")),
-        #fill = after_scale(desaturate(lighten(color, .8), .4))),
+        y = mean_precipitation,
         fill =  periodo_6_anos),
-    width = .2, 
+    width = .1,
     outlier.shape = NA,
     outlier.color = NA,
     alpha = 0.5,
-    position = position_dodge(width = -0.9) 
+    position = position_dodge(width = -0.9)
   ) +
   stat_summary(
     geom = "text",
-    color = 'grey95', 
+    color = 'grey95',
     fun = "median",
     aes(label = round(..y.., 2),
         #color = c("#f2f2f2", "#f2f2f2", "#f2f2f2", "#f2f2f2")
         #color = periodo_6_anos,
         #color = after_scale(darken(color, .1, space = "HLS"))
-        ),
+    ),
     family = "Roboto",
     fontface = "bold",
     size = 4.5,
@@ -64,7 +67,7 @@ df_precipitacao %>%
   ) +
   stat_dots(
     side = "left",
-    justification = 1.1,
+    justification = 1.09,
     binwidth = 0.2,
     color = "transparent"
   ) +
@@ -80,7 +83,7 @@ df_precipitacao %>%
   coord_flip(xlim = c(1.2, NA), clip = "off") +
   scale_y_continuous(
     limits = c(0, 30),
-    breaks = seq(0, 30, by = 5),
+    breaks = seq(0, 40, by = 8),
     expand = c(.001, .001)
   ) +
   theme_minimal(base_family = "Roboto", base_size = 15) +
@@ -91,16 +94,16 @@ df_precipitacao %>%
     axis.text.y = element_blank(),
     axis.text.x = element_text(family = "Roboto"),
     #axis.text.y = element_text(
-      #color = darken(pal, .1, space = "HLS"), 
+    #color = darken(pal, .1, space = "HLS"), 
     #  size = 18
     #),
-   # axis.title.x = element_text(margin = margin(t = 10),
+    # axis.title.x = element_text(margin = margin(t = 10),
     #                            size = 16),
- 
-   plot.margin = unit(c(0, 0.5, 2, 0), "cm"),
+    
+    plot.margin = unit(c(0, 0.5, 2, 0), "cm"),
     legend.position="none",
-   plot.background = element_rect(fill = "#f2f2f2")
-
+    plot.background = element_rect(fill = "#f2f2f2")
+    
   )
 
 
