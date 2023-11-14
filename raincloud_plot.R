@@ -4,9 +4,8 @@ library(ggthemes)
 library(tidyverse)
 
 windowsFonts(Roboto = windowsFont("Roboto"))
-
-
 setwd("~/github/0raincloud-plot")
+
 # Leitura de dados
 estacoes_automaticas <- read.csv("dados_estacoes_automaticas_bh.csv")
 estacoes_convencionais <- read.csv("dados_estacoes_convencionais_bh.csv")
@@ -25,16 +24,15 @@ df_precipitacao <- dados %>%
          mes = lubridate::month(Data.Medicao, label = TRUE, abbr = FALSE),
          ano_num = as.numeric(ano),
          periodo_6_anos = paste0(floor((ano_num - min(ano_num)) / 6) *
-                                 6 + min(ano_num), "-", floor((ano_num - min(ano_num)) / 6) * 6 + min(ano_num) + 4)) %>% 
+                                   6 + min(ano_num), "-", floor((ano_num - min(ano_num)) / 6) * 6 + min(ano_num) + 4)) %>% 
   group_by(ano, mes,periodo_6_anos) %>%
   summarize(mean_precipitation = mean(precipitacao_diaria_mm, na.rm = TRUE))
 
 pal <- c("#00b4d8", "#0077b6", "#023e8a")
-
-ggplot(df_precipitacao, aes(x = factor(periodo_6_anos), y = mean_precipitation, fill = factor(periodo_6_anos))) +
+df_precipitacao %>%
+  ggplot(aes(x = factor(periodo_6_anos), y = mean_precipitation, fill = factor(periodo_6_anos))) +
   stat_halfeye(
-    # aes(y = mean_precipitation),
-    adjust = 1,
+    adjust = 1.5,
     justification = -0.15,
     width = 0.5,
     .width = 0,
@@ -43,17 +41,18 @@ ggplot(df_precipitacao, aes(x = factor(periodo_6_anos), y = mean_precipitation, 
   ) +
   geom_boxplot(
     aes(color = periodo_6_anos,
-        y = mean_precipitation,
+        # color = after_scale(darken(color, .1, space = "HLS")),
+        #fill = after_scale(desaturate(lighten(color, .8), .4))),
         fill =  periodo_6_anos),
-    width = .1,
+    width = .2, 
     outlier.shape = NA,
     outlier.color = NA,
     alpha = 0.5,
-    position = position_dodge(width = -0.9)
+    position = position_dodge(width = -0.9) 
   ) +
   stat_summary(
     geom = "text",
-    color = 'grey95',
+    color = 'grey95', 
     fun = "median",
     aes(label = round(..y.., 2),
         #color = c("#f2f2f2", "#f2f2f2", "#f2f2f2", "#f2f2f2")
@@ -71,7 +70,6 @@ ggplot(df_precipitacao, aes(x = factor(periodo_6_anos), y = mean_precipitation, 
     binwidth = 0.2,
     color = "transparent"
   ) +
-  theme_tq() +
   scale_color_manual(values = pal) +
   scale_fill_manual(values = pal)+
   labs(
@@ -83,9 +81,10 @@ ggplot(df_precipitacao, aes(x = factor(periodo_6_anos), y = mean_precipitation, 
   coord_flip(xlim = c(1.2, NA), clip = "off") +
   scale_y_continuous(
     limits = c(0, 30),
-    breaks = seq(0, 40, by = 8),
+    breaks = seq(0, 30, by = 5),
     expand = c(.001, .001)
   ) +
+  # theme_tq() +
   theme_minimal(base_family = "Roboto", base_size = 15) +
   theme(
     panel.grid.minor = element_blank(),
@@ -102,8 +101,6 @@ ggplot(df_precipitacao, aes(x = factor(periodo_6_anos), y = mean_precipitation, 
     
     plot.margin = unit(c(0, 0.5, 2, 0), "cm"),
     legend.position="none",
-    plot.background = element_rect(fill = "#f2f2f2")
+    plot.background = element_rect(fill = "#ffffff")
     
   )
-
-
